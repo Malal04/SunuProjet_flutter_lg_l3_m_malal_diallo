@@ -2,23 +2,54 @@ import 'package:diallo_mamadou_malal_l3gl_examen/screens/auth/login_screen.dart'
 import 'package:flutter/material.dart';
 import '../../config/constants/constants_assets.dart';
 import '../../config/constants/constants_color.dart';
+import '../../services/auth/auth_service.dart';
 
-class SignupScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   static const String routeName = '/signup';
-  const SignupScreen({super.key});
+  const SignUpScreen({super.key});
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nomCompleteController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmerPasswordController = TextEditingController();
-  bool isObscured = true;
+  final TextEditingController _nomCompleteController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool isLoading = false;
-  _signIn() async {}
+  bool isPasswordObscured = true;
+  bool isConfirmPasswordObscured = true;
+
+  Future<void> _signUp() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      await AuthService().createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+        nom: _nomCompleteController.text.trim(),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Inscription réussie !")),
+      );
+
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erreur : ${e.toString()}")),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,33 +113,16 @@ class _SignupScreenState extends State<SignupScreen> {
                             controller:  _nomCompleteController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
-                              labelText: 'Nom complete',
+                              labelText: 'Nom compléte',
                               hintText: 'Entrez votre nom compléte',
                               prefixIcon: const Icon(Icons.person),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10)
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                borderSide: BorderSide(color: Colors.grey.shade400),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 2,
-                                ),
-                              ),
-                              floatingLabelBehavior: FloatingLabelBehavior.always,
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre nom complete';
-                              }
-                              return null;
-                            },
+                            validator: (value) => value!.isEmpty ? 'Veuillez entrer votre nom compléte' : null,
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
@@ -117,128 +131,67 @@ class _SignupScreenState extends State<SignupScreen> {
                               hintText: 'Entrez votre email',
                               prefixIcon: const Icon(Icons.email_outlined),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10)
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                borderSide: BorderSide(color: Colors.grey.shade400),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 2,
-                                ),
-                              ),
-                              floatingLabelBehavior: FloatingLabelBehavior.always,
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre email';
-                              }
-                              if (!value.contains('@')) {
+                              if (value == null || value.isEmpty) return 'Veuillez entrer votre email';
+                              if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(value)) {
                                 return 'Veuillez entrer un email valide';
                               }
                               return null;
                             },
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           TextFormField(
                             controller: _passwordController,
-                            obscureText: isObscured,
+                            obscureText: isPasswordObscured,
                             decoration: InputDecoration(
-                                labelText: ' Mot de passe ',
-                                hintText: ' Entrez votre mot de passe ',
-                                prefixIcon: const Icon(Icons.lock_outline),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  borderSide: BorderSide(color: Colors.grey.shade400),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2,
-                                  ),
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
-                                suffixIcon: IconButton(
-                                    icon: isObscured
-                                        ? Icon(Icons.visibility)
-                                        : Icon(Icons.visibility_off),
-                                    color: Colors.black,
-                                    onPressed: () {
-                                      setState(() {
-                                        isObscured =!isObscured;
-                                      });
-                                    })
+                              labelText: 'Mot de passe',
+                              hintText: 'Entrez votre mot de passe',
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                              suffixIcon: IconButton(
+                                icon: Icon(isPasswordObscured ? Icons.visibility : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    isPasswordObscured = !isPasswordObscured;
+                                  });
+                                },
+                              ),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre mot de passe';
-                              }
-                              if (value.length < 6) {
-                                return 'Le mot de passe doit contenir au moins 6 caractères';
-                              }
+                              if (value == null || value.isEmpty) return 'Veuillez entrer votre mot de passe';
+                              if (value.length < 6) return 'Le mot de passe doit contenir au moins 6 caractères';
                               return null;
                             },
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           TextFormField(
-                            controller: _confirmerPasswordController,
-                            obscureText: isObscured,
+                            controller: _confirmPasswordController,
+                            obscureText: isConfirmPasswordObscured,
                             decoration: InputDecoration(
-                                labelText: 'Confirmer le mot de passe ',
-                                hintText: 'Confirmer votre mot de passe',
-                                prefixIcon: const Icon(Icons.lock_outline),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  borderSide: BorderSide(color: Colors.grey.shade400),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2,
-                                  ),
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
-                                suffixIcon: IconButton(
-                                    icon: isObscured
-                                        ? Icon(Icons.visibility)
-                                        : Icon(Icons.visibility_off),
-                                    color: Colors.black,
-                                    onPressed: () {
-                                      setState(() {
-                                        isObscured =!isObscured;
-                                      });
-                                    })
+                              labelText: 'Confirmez le mot de passe',
+                              hintText: 'Répétez votre mot de passe',
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                              suffixIcon: IconButton(
+                                icon: Icon(isConfirmPasswordObscured ? Icons.visibility : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    isConfirmPasswordObscured = !isConfirmPasswordObscured;
+                                  });
+                                },
+                              ),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Veuillez confirmer votre mot de passe';
-                              }
-                              if (value.length < 6) {
-                                return 'Le mot de passe doit contenir au moins 6 caractères';
-                              }
-                              if (value != _passwordController.text) {
-                                return 'Veuillez entrer le meme mot de passe';
-                              }
-                              return null;
-                            },
+                            validator: (value) => value != _passwordController.text ? 'Les mots de passe ne correspondent pas' : null,
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           SizedBox(
                             width: double.infinity,
                             height: 55,
                             child: ElevatedButton(
-                              onPressed: isLoading ? null : _signIn,
+                              onPressed: isLoading ? null : _signUp,
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: kSecondaryColor,
                                   shape: RoundedRectangleBorder(

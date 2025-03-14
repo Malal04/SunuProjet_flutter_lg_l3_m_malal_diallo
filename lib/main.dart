@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       home: const Redirection(),
       routes: {
         NavigationRoutes.accueil: (context) => AccueilScreen(),
-        NavigationRoutes.signup: (context) => SignupScreen(),
+        NavigationRoutes.signup: (context) => SignUpScreen(),
         NavigationRoutes.login: (context) => LoginScreen(),
         NavigationRoutes.creerProjet: (context) => CreerProjet(),
       },

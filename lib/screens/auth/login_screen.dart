@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.bold
                               )),
                           TextButton(
-                            onPressed: () => Navigator.pushNamed(context, SignupScreen.routeName),
+                            onPressed: () => Navigator.pushNamed(context, SignUpScreen.routeName),
                             child: const Text("S'inscrire",
                                 style: TextStyle(
                                     color: kSecondaryColor,

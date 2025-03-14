@@ -5,7 +5,7 @@ import 'package:diallo_mamadou_malal_l3gl_examen/screens/publics/creer/projet_cr
 
 class NavigationRoutes {
   static const String login = LoginScreen.routeName;
-  static const String signup = SignupScreen.routeName;
+  static const String signup = SignUpScreen.routeName;
   static const String accueil = AccueilScreen.routeName;
   static const String creerProjet = CreerProjet.routeName;
 }

@@ -1,3 +1,4 @@
+import 'package:diallo_mamadou_malal_l3gl_examen/services/auth/db_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -34,9 +35,14 @@ class AuthService with ChangeNotifier{
   Future<void> createUserWithEmailAndPassword({
     required String email,
     required String password,
+    required String nom
   }) async {
-    await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    final resul = await _auth.createUserWithEmailAndPassword(email: email, password: password);
     notifyListeners();
+    final user = resul.user;
+    if(user != null){
+      await DbUserService().saveUser(UserModel(id: user.uid, email: email, nom: nom));
+    }
   }
 
   Future<void> signOut() async {
