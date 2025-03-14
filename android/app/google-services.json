@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "420638380731",
+    "project_id": "sunjob-lg-l3",
+    "storage_bucket": "sunjob-lg-l3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420638380731:android:ec432da2cf238560d80f9e",
+        "android_client_info": {
+          "package_name": "com.example.diallo_mamadou_malal_l3gl_examen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoL2U8HZe6g-8BRJdjNpG09dKFfdGb1yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

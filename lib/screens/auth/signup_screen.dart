@@ -23,6 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: kSecondaryColor,
         foregroundColor: Colors.white,
@@ -34,6 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
+
       body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -220,10 +222,13 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre mot de passe';
+                                return 'Veuillez confirmer votre mot de passe';
                               }
                               if (value.length < 6) {
                                 return 'Le mot de passe doit contenir au moins 6 caractères';
+                              }
+                              if (value != _passwordController.text) {
+                                return 'Veuillez entrer le meme mot de passe';
                               }
                               return null;
                             },

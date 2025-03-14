@@ -7,9 +7,10 @@ const KSecondaryDarkColor = Color(0xffb6dfff);
 
 const kDarkColor = Color(0xff000000);
 
+const kDarkGreyColor = Color(0xff1E1E1E);
 const kWhiteColor = Color(0xffffffff);
 const kGreyColor = Color(0xffb9b9b9);
-const backgroundColor = Color(0xffefffef);
+const backgroundColor = Color(0xfff6f6f6);
 const kErrorColor = Color(0xffff0000);
 
 const kPrimaryColor0 = Color(0xff6b5428);
