@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../config/constants/constants_assets.dart';
 import '../../config/constants/constants_color.dart';
 import '../../services/auth/auth_service.dart';
-
+import '../../../models/enums/status.dart';
 
 class AccueilScreen extends StatefulWidget {
   static const String routeName = '/accueil';
@@ -18,18 +18,17 @@ class _AccueilScreenState extends State<AccueilScreen> {
   Future<void> signOut(BuildContext context) async {
     final authService = Provider.of<AuthService>(context, listen: false);
     await authService.signOut();
-
-    if (!mounted) return; // Vérifie si le widget est encore monté
+    if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
-    final user = authService.user; // Récupérer l'utilisateur connecté
+    final user = authService.user;
 
     return DefaultTabController(
-      length: 4, // 4 onglets
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: kSecondaryColor,
@@ -63,7 +62,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
           ),
         ),
         drawer: Drawer(
-          backgroundColor: Colors.white, // Drawer en blanc
+          backgroundColor: Colors.white,
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
@@ -111,10 +110,10 @@ class _AccueilScreenState extends State<AccueilScreen> {
         ),
         body: TabBarView(
           children: [
-            ProjetTabView(),
-            ProjetTabView(),
-            ProjetTabView(),
-            ProjetTabView(),
+            ProjetTabView(status: ProjectStatus.EnAttente),
+            ProjetTabView(status: ProjectStatus.EnCours),
+            ProjetTabView(status: ProjectStatus.Termine),
+            ProjetTabView(status: ProjectStatus.Annule),
           ],
         ),
       ),

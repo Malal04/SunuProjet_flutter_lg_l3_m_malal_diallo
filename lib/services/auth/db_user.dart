@@ -22,10 +22,10 @@ class DbUserService {
         return null;
       }
 
-      final data = doc.data() as Map<String, dynamic>?; // ✅ Cast explicite
+      final data = doc.data() as Map<String, dynamic>?;
       if (data == null) return null;
 
-      return UserModel.fromMap(data); // ✅ Utilisation correcte
+      return UserModel.fromMap(data);
     } catch (e) {
       Logger().e("Erreur lors de la récupération de l'utilisateur: $e");
       return null;

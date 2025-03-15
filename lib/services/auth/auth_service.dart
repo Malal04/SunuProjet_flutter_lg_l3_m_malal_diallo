@@ -1,7 +1,6 @@
 import 'package:diallo_mamadou_malal_l3gl_examen/services/auth/db_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../../models/user_model.dart';
 
 class AuthService with ChangeNotifier{
@@ -51,5 +50,3 @@ class AuthService with ChangeNotifier{
   }
 
 }
-
-

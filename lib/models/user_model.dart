@@ -1,9 +1,7 @@
-
-
 import 'enums/role.dart';
 
 class UserModel {
-  final String id;
+  final String? id;
   final String nom;
   final String email;
   final Role role;
@@ -14,7 +12,7 @@ class UserModel {
     required this.id,
     required this.nom,
     required this.email,
-    this.role = Role.admin, // Par défaut, l'utilisateur est un admin
+    this.role = Role.admin,
     this.profilePicture,
     this.isActive = true,
   });
@@ -26,7 +24,7 @@ class UserModel {
       email: map['email'],
       role: Role.values.firstWhere(
             (e) => e.toString().split('.').last == map['role'],
-        orElse: () => Role.admin, // Valeur par défaut
+        orElse: () => Role.admin,
       ),
       profilePicture: map['profilePicture'],
       isActive: map['isActive'] ?? true,
@@ -38,9 +36,10 @@ class UserModel {
       'id': id,
       'nom': nom,
       'email': email,
-      'role': role.toString().split('.').last, // Stocké sous forme de string
+      'role': role.toString().split('.').last,
       'profilePicture': profilePicture,
       'isActive': isActive,
     };
   }
+
 }

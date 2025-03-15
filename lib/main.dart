@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'config/routes/routes.dart';
 import 'config/themes/theme.dart';
+import 'controllers/ProjectProvider.dart';
 import 'firebase_options.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
@@ -26,6 +27,7 @@ void main() async {
           create: (context) => AuthService().authStateChanges,
           initialData: null,
         ),
+        ChangeNotifierProvider(create: (_) => ProjectProvider()),
       ],
       child: const MyApp(),
     ),
