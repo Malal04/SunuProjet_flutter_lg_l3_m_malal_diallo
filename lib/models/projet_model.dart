@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'enums/priority.dart';
 import 'enums/status.dart';
 
@@ -10,9 +11,9 @@ class ProjectModel {
   final DateTime endDate;
   final ProjectPriority priority;
   final ProjectStatus status;
-  final List<String> members;
-  final String createdBy; // Utilisateur qui a ajouté le projet
-  final double progress; // Progression automatique basée sur le statut
+  final List<String> memberIds;
+  final String createdBy;
+  final double progress;
 
   ProjectModel({
     required this.id,
@@ -22,22 +23,21 @@ class ProjectModel {
     required this.endDate,
     required this.priority,
     required this.status,
-    required this.members,
+    required this.memberIds,
     required this.createdBy,
-  })  : progress = _calculateProgress(status) { // Calcul automatique
+  })  : progress = _calculateProgress(status) {
     if (startDate.isAfter(endDate)) {
       throw ArgumentError('La date de début ne peut pas être après la date de fin.');
     }
   }
 
-  /// Fonction pour calculer la progression en fonction du statut
   static double _calculateProgress(ProjectStatus status) {
     switch (status) {
-      case ProjectStatus.EnAttente: // En attente
+      case ProjectStatus.EnAttente:
         return 0.0;
-      case ProjectStatus.EnCours: // En cours
+      case ProjectStatus.EnCours:
         return 50.0;
-      case ProjectStatus.Termine: // Terminé
+      case ProjectStatus.Termine:
         return 100.0;
       default:
         return 0.0;
@@ -53,7 +53,7 @@ class ProjectModel {
       endDate: DateTime.parse(map['endDate']),
       priority: ProjectPriority.values.firstWhere((e) => e.name == map['priority']),
       status: ProjectStatus.values.firstWhere((e) => e.name == map['status']),
-      members: List<String>.from(map['members']),
+      memberIds: List<String>.from(map['members']),
       createdBy: map['createdBy'],
     );
   }
@@ -67,9 +67,9 @@ class ProjectModel {
       'endDate': endDate.toIso8601String(),
       'priority': priority.name,
       'status': status.name,
-      'members': members,
+      'members': memberIds,
       'createdBy': createdBy,
-      'progress': progress, // Ajout de la progression
+      'progress': progress,
     };
   }
 

@@ -60,7 +60,7 @@ class _CreerProjetState extends State<CreerProjet> {
         priority: priorityEnum,
         status: ProjectStatus.EnAttente,
         createdBy:userId,
-        members: [],
+        memberIds:[],
       );
 
       try {

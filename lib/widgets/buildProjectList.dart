@@ -1,8 +1,10 @@
+import 'package:diallo_mamadou_malal_l3gl_examen/screens/publics/tab/projet_detail_view.dart';
 import 'package:flutter/material.dart';
 import '../config/constants/fonction.dart';
 import '../models/projet_model.dart';
 
 Widget buildProjectList(List<ProjectModel> projets) {
+
   return ListView.builder(
     itemCount: projets.length,
     itemBuilder: (context, index) {
@@ -77,6 +79,12 @@ Widget buildProjectList(List<ProjectModel> projets) {
             ),
           ),
           onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProjectDetailScreen(project: projet),
+              ),
+            );
           },
         ),
       );

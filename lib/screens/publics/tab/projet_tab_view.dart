@@ -25,24 +25,34 @@ class ProjetTabView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Champ de recherche
             TextField(
               onChanged: (query) {
                 projectProvider.searchProjects(query);
               },
               decoration: InputDecoration(
                 labelText: 'Rechercher un projet...',
-                prefixIcon: const Icon(Icons.search),
+                labelStyle: TextStyle(color: Colors.grey.shade600),
+                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear, color: Colors.grey),
+                  onPressed: () {
+                    projectProvider.searchProjects('');
+                  },
+                ),
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: Colors.grey.shade800),
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide.none,
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(color: Colors.blue.shade400, width: 2),
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
               ),
             ),
             const SizedBox(height: 20),
-            // Liste des projets en temps réel
             Expanded(
               child: StreamBuilder<List<ProjectModel>>(
                 stream: projectProvider.getProjectsStream(userId, status),
@@ -65,8 +75,6 @@ class ProjetTabView extends StatelessWidget {
           ],
         ),
       ),
-
-      // Bouton d'ajout d'un projet
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

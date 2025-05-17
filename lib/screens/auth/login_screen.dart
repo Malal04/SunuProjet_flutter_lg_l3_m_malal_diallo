@@ -1,3 +1,4 @@
+import 'package:diallo_mamadou_malal_l3gl_examen/screens/auth/reste_screen.dart';
 import 'package:diallo_mamadou_malal_l3gl_examen/screens/auth/signup_screen.dart';
 import 'package:diallo_mamadou_malal_l3gl_examen/screens/publics/accuiel_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -157,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.pushNamed(context, ResteScreen.routeName),
                           child: const Text(
                               "Mot de passe oublié ?",
                               style: TextStyle(

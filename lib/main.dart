@@ -1,3 +1,4 @@
+import 'package:diallo_mamadou_malal_l3gl_examen/screens/auth/reste_screen.dart';
 import 'package:diallo_mamadou_malal_l3gl_examen/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         NavigationRoutes.accueil: (context) => AccueilScreen(),
         NavigationRoutes.signup: (context) => SignUpScreen(),
         NavigationRoutes.login: (context) => LoginScreen(),
+        NavigationRoutes.reste: (context) => ResteScreen(),
         NavigationRoutes.creerProjet: (context) => CreerProjet(),
       },
     );

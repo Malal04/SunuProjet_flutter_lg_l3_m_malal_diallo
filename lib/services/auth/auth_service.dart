@@ -49,4 +49,20 @@ class AuthService with ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void> resetPassword({required String email}) async {
+    try {
+      // Vérifier si l'email existe
+      final signInMethods = await _auth.fetchSignInMethodsForEmail(email);
+
+      if (signInMethods.isEmpty) {
+        throw FirebaseAuthException(message: "Aucun compte trouvé pour cet email", code: '');
+      }
+
+      await _auth.sendPasswordResetEmail(email: email);
+      print("Email de réinitialisation envoyé");
+    } on FirebaseAuthException catch (e) {
+      print("Erreur lors de l'envoi de l'email de réinitialisation: ${e.message}");
+    }
+  }
+
 }

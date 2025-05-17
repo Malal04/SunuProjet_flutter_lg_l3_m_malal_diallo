@@ -32,5 +32,31 @@ class DbUserService {
     }
   }
 
+  // Récupérer un utilisateur par email
+  Future<UserModel?> getUserByEmail(String email) async {
+    try {
+      final snapshot = await userCol.where('email', isEqualTo: email).get();
+      if (snapshot.docs.isEmpty) {
+        return null; // Aucun utilisateur trouvé avec cet email
+      }
+      final userDoc = snapshot.docs.first;
+      return UserModel.fromMap(userDoc.data() as Map<String, dynamic>);
+    } catch (e) {
+      throw Exception("Erreur lors de la récupération de l'utilisateur : $e");
+    }
+  }
+
+  Future<UserModel?> getUserById(String userId) async {
+    try {
+      final doc = await userCol.doc(userId).get();
+      if (!doc.exists) {
+        return null; // Aucun utilisateur trouvé avec cet ID
+      }
+      return UserModel.fromMap(doc.data() as Map<String, dynamic>);
+    } catch (e) {
+      throw Exception("Erreur lors de la récupération de l'utilisateur : $e");
+    }
+  }
+
 
 }

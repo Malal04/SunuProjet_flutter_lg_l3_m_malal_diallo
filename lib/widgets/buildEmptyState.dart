@@ -1,4 +1,3 @@
-// Widget pour afficher "Aucun projet trouvé"
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

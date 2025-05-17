@@ -41,5 +41,4 @@ class UserModel {
       'isActive': isActive,
     };
   }
-
 }
